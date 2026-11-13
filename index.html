@@ -64,6 +64,12 @@ tr.blocked td:not(.slot){background:var(--blocked);color:var(--muted)}
 .card.ten{justify-content:center}
 .open{border:1.5px dashed var(--line);border-radius:6px;color:var(--muted);font-size:12px;display:flex;align-items:center;justify-content:center}
 .dim{opacity:.18}
+.howto{margin:0 0 -8px;color:var(--muted);font-size:13px}
+.wm{position:fixed;inset:0;pointer-events:none;z-index:50;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.wm span{transform:rotate(-28deg);font:700 clamp(48px,11vw,150px)/1 var(--display);letter-spacing:.08em;color:var(--fg);opacity:.1;white-space:nowrap;text-align:center}
+.wm small{display:block;font-size:.28em;letter-spacing:.2em;margin-top:.3em}
+.draftbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:color-mix(in srgb,var(--DRA) 14%,var(--panel));border:1px solid color-mix(in srgb,var(--DRA) 45%,var(--line));color:var(--fg);border-radius:8px;padding:8px 12px;font-weight:700}
+.draftbar b{color:var(--DRA);letter-spacing:.06em}
 td.blk{background:var(--blocked)}
 .blocked-cell{min-height:96px;display:flex;align-items:center;justify-content:center;font:700 13px var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .count{font:400 12px var(--body);color:var(--muted)}
@@ -71,7 +77,9 @@ td.blk{background:var(--blocked)}
 </style>
 </head>
 <body>
+<div class="wm" aria-hidden="true"><span>DRAFT<small>PRIVATE · NOT FOR DISTRIBUTION</small></span></div>
 <div class="wrap">
+  <div class="draftbar" role="note"><b>DRAFT</b> Private working schedule for the BOLLI curriculum committee. Not for distribution to SGLs or members.</div>
   <header>
     <h1>Spring 2027 Preliminary Schedule</h1>
     <p class="sub">BOLLI in-person rooms and Zoom, by period. Draft for review.</p>
@@ -79,8 +87,8 @@ td.blk{background:var(--blocked)}
   <div class="bar">
     <div class="lenkey"><span class="len l10">10 wk</span> full term <span class="len l5a">5a</span> weeks 1–5 <span class="len l5b">5b</span> weeks 6–10</div>
   </div>
+  <p class="howto">Click a subject below to highlight its courses and fade the rest. Click it again to show everything.</p>
   <div class="legend" id="legend"><span class="lab">Subject</span></div>
-  <div class="note" id="note"></div>
   <div class="scroll"><table id="grid" aria-label="Schedule grid"></table></div>
 </div>
 <script>
@@ -108,7 +116,6 @@ function roomCell(rs){
 const ord={'10':0,'5a':1,'5b':2,'TBD':3};
 function render(){
   const res=DATA[ver];
-  document.getElementById('note').textContent=NOTES[ver];
   document.querySelectorAll('.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.v===ver));
   let h='<thead><tr><th class="slot">Period</th><th>Room 1</th><th>Room 2</th><th>Room 3 (small)</th><th>Zoom</th></tr></thead><tbody>';
   const days=[['Mon','Monday'],['Tue','Tuesday'],['Wed','Wednesday'],['Thu','Thursday']];
